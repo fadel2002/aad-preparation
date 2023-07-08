@@ -3,7 +3,6 @@ package com.dicoding.todoapp.utils
 import androidx.sqlite.db.SimpleSQLiteQuery
 
 object FilterUtils {
-
     fun getFilteredQuery(filter: TasksFilterType): SimpleSQLiteQuery {
         val simpleQuery = StringBuilder().append("SELECT * FROM tasks ")
         when (filter) {

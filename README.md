@@ -1,1 +1,5 @@
-# aad-preparation
+## Repository for android learning path at Bangkit Academy 2023
+
+This is a recap of the seventh module titled AAD Preparation.
+
+## Final Project Application View
