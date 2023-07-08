@@ -6,13 +6,20 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.dicoding.todoapp.R
+import com.dicoding.todoapp.data.Task
+import com.dicoding.todoapp.ui.ViewModelFactory
 import com.dicoding.todoapp.utils.DatePickerFragment
+import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddTaskActivity : AppCompatActivity(), DatePickerFragment.DialogDateListener {
     private var dueDateMillis: Long = System.currentTimeMillis()
+    private lateinit var viewModel: AddTaskViewModel
+    private lateinit var edtTitle: TextInputEditText
+    private lateinit var edtDescription: TextInputEditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +27,10 @@ class AddTaskActivity : AppCompatActivity(), DatePickerFragment.DialogDateListen
 
         supportActionBar?.title = getString(R.string.add_task)
 
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelFactory.getInstance(this)
+        )[AddTaskViewModel::class.java]
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -31,6 +42,15 @@ class AddTaskActivity : AppCompatActivity(), DatePickerFragment.DialogDateListen
         return when (item.itemId) {
             R.id.action_save -> {
                 //TODO 12 : Create AddTaskViewModel and insert new task to database
+                edtTitle = findViewById(R.id.add_ed_title)
+                edtDescription = findViewById(R.id.add_ed_description)
+
+                val title = edtTitle.text.toString()
+                val description = edtDescription.text.toString()
+
+                val task = Task(0, title, description, dueDateMillis, false)
+                viewModel.insertTask(task)
+                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)
