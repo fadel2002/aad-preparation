@@ -3,6 +3,10 @@ package com.dicoding.habitapp.ui.random
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.habitapp.R
 import com.dicoding.habitapp.data.Habit
@@ -40,8 +44,24 @@ class RandomHabitAdapter(
         RecyclerView.ViewHolder(itemView) {
         //TODO 14 : Create view and bind data to item view
 
-        fun bind(pageType: PageType, pageData: Habit) {
+        val tvPagerTitle = itemView.findViewById<TextView>(R.id.pager_tv_title)
+        val tvPagerStartTime = itemView.findViewById<TextView>(R.id.pager_tv_start_time)
+        val ivPriorityLevel = itemView.findViewById<ImageView>(R.id.item_priority_level)
+        val tvPagerMinutes = itemView.findViewById<TextView>(R.id.pager_tv_minutes)
+        val btnOpenCountDown = itemView.findViewById<Button>(R.id.btn_open_count_down)
 
+        fun bind(pageType: PageType, pageData: Habit) {
+            tvPagerTitle.text = pageData.title
+            tvPagerStartTime.text = pageData.startTime
+            when (pageType) {
+                PageType.HIGH -> ivPriorityLevel.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_priority_high))
+                PageType.MEDIUM -> ivPriorityLevel.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_priority_medium))
+                PageType.LOW -> ivPriorityLevel.setImageDrawable(ContextCompat.getDrawable(itemView.context, R.drawable.ic_priority_low))
+            }
+            tvPagerMinutes.text = pageData.minutesFocus.toString()
+            btnOpenCountDown.setOnClickListener {
+                onClick(pageData)
+            }
         }
     }
 }
