@@ -41,23 +41,20 @@ class NotificationWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, p
     override fun doWork(): Result {
         //TODO 14 : If notification preference on, get nearest active task from repository and show notification with pending intent
         if (notificationValue){
-            val nearestTask =
-                TaskDatabase.getInstance(applicationContext).taskDao().getNearestActiveTask()
+            val nearestTask = TaskDatabase.getInstance(applicationContext).taskDao().getNearestActiveTask()
             val pendingIntent = getPendingIntent(nearestTask)
-            val notificationManager =
-                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val notification =
-                NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_notifications)
-                    .setContentTitle(nearestTask.title)
-                    .setContentText(
-                        applicationContext.getString(
-                            R.string.notify_content, DateConverter.convertMillisToString(
-                                nearestTask.dueDateMillis
-                            )
+            val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notifications)
+                .setContentTitle(nearestTask.title)
+                .setContentText(
+                    applicationContext.getString(
+                        R.string.notify_content, DateConverter.convertMillisToString(
+                            nearestTask.dueDateMillis
                         )
                     )
-                    .setContentIntent(pendingIntent)
+                )
+                .setContentIntent(pendingIntent)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(
                     NOTIFICATION_CHANNEL_ID,

@@ -67,7 +67,6 @@ class SettingsActivity : AppCompatActivity() {
                 WorkManager.getInstance(requireContext()).enqueue(workRequest)
                 true
             }
-
         }
     }
 }

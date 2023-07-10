@@ -40,3 +40,15 @@ fun getTodayDayNumber(): Int {
     val calendar = Calendar.getInstance()
     return calendar.get(Calendar.DAY_OF_WEEK)
 }
+
+fun timeFormat(hour: Int, minute: Int): String{
+    return if (hour < 10 && minute < 10) {
+        "0$hour:0$minute"
+    } else if (hour < 10 && minute > 10) {
+        "0$hour:$minute"
+    } else if (hour > 10 && minute < 10) {
+        "$hour:0$minute"
+    } else {
+        "$hour:$minute"
+    }
+}

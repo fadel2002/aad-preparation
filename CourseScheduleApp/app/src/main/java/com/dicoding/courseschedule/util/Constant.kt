@@ -6,6 +6,10 @@ const val NOTIFICATION_CHANNEL_NAME = "Course Channel"
 const val NOTIFICATION_CHANNEL_ID = "notify-schedule"
 const val NOTIFICATION_ID = 32
 const val ID_REPEATING = 101
+const val THEME_PREFERENCE = "theme-preference"
+const val NOTIFICATION_PREFERENCE = "notification-preference"
+const val DARK_MODE = "dark-mode"
+const val NOTIFICATION_STATUS = "notification-status"
 
 private val SINGLE_EXECUTOR = Executors.newSingleThreadExecutor()
 

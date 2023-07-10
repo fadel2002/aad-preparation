@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.courseschedule.R
 import com.dicoding.courseschedule.data.Course
-import com.dicoding.courseschedule.ui.ViewModelFactory
 import com.dicoding.courseschedule.ui.add.AddCourseActivity
 import com.dicoding.courseschedule.ui.list.ListActivity
 import com.dicoding.courseschedule.ui.setting.SettingsActivity
@@ -30,8 +29,8 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         supportActionBar?.title = resources.getString(R.string.today_schedule)
 
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
+        val factory = HomeViewModelFactory.createFactory(this)
+        viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
         viewModel.getNearestSchedule(queryType).observe(this) { course ->
             showTodaySchedule(course)
@@ -40,17 +39,25 @@ class HomeActivity : AppCompatActivity() {
 
     private fun showTodaySchedule(course: Course?) {
         checkQueryType(course)
+        val cardHome = findViewById<CardHomeView>(R.id.view_home)
         course?.apply {
             val dayName = DayName.getByNumber(day)
             val time = String.format(getString(R.string.time_format), dayName, startTime, endTime)
             val remainingTime = timeDifference(day, startTime)
 
-            val cardHome = findViewById<CardHomeView>(R.id.view_home)
             cardHome.setCourseName(courseName)
             cardHome.setTime(time)
             cardHome.setRemainingTime(remainingTime)
             cardHome.setLecturer(lecturer)
             cardHome.setNote(note)
+        }
+
+        if (course == null){
+            cardHome.setCourseName("")
+            cardHome.setTime("")
+            cardHome.setRemainingTime("")
+            cardHome.setLecturer("")
+            cardHome.setNote("")
         }
 
         findViewById<TextView>(R.id.tv_empty_home).visibility =
