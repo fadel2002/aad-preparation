@@ -32,8 +32,18 @@ class HomeActivity : AppCompatActivity() {
         val factory = HomeViewModelFactory.createFactory(this)
         viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
-        viewModel.getNearestSchedule(queryType).observe(this) { course ->
-            showTodaySchedule(course)
+        viewModel.getNearestSchedule(queryType).observe(this) { course1 ->
+            showTodaySchedule(course1)
+            if (course1 == null){
+                viewModel.getNearestSchedule(queryType).observe(this) { course2 ->
+                    showTodaySchedule(course2)
+                    if (course2 == null){
+                        viewModel.getNearestSchedule(queryType).observe(this) { course3 ->
+                            showTodaySchedule(course3)
+                        }
+                    }
+                }
+            }
         }
     }
 
